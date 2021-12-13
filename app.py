@@ -49,6 +49,8 @@ def main():
             bytes_data = upload_file.getvalue()
             fd = open("./img_to_predict.jpg", "wb")
             fd.write(bytes_data)
+            fd.close()
+            st.image(bytes_data)
         
         if st.button('Predict'):
             loaded_model = tf.keras.models.load_model("./model.h5", compile=True)
