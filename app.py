@@ -51,16 +51,14 @@ def main():
             fd.write(bytes_data)
         
         if st.button('Predict'):
-            loaded_model = tf.keras.models.load_model("./model.h5")
+            loaded_model = tf.keras.models.load_model("./model.h5", compile=True)
             loaded_model.summary()
             if Path("./img_to_predict.jpg").exists():
                 img = tf.keras.preprocessing.image.load_img("./img_to_predict.jpg", target_size=(128, 128), interpolation='lanczos')
                 img = tf.keras.preprocessing.image.img_to_array(img)
-                img = img / 255.0
                 pred = loaded_model.predict(np.array([img]))
                 pred_label = np.argsort(pred)
-                print(pred_label)
-                for i in pred_label[0][-1:-3:-1]:
+                for i in pred_label[0]:
                     st.write(f"{labels[i]} Ship : {pred[0][i]*100:0.2f} %")
 
     st.warning("Note: This A.I application is for educational/demo purposes only and cannot be relied upon.")
